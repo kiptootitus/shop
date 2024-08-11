@@ -1,0 +1,6 @@
+django
+djangorestframework
+pillow
+radius
+psycopg2-binary
+drf-yasg # this is swagger for api documnetation
