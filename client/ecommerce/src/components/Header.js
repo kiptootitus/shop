@@ -42,8 +42,8 @@ function Header() {
                             </LinkContainer>
                         </li>
                         <li className="nav-item">
-                            <LinkContainer to="/signin">
-                                <Nav.Link className="nav-link">Signin</Nav.Link>
+                            <LinkContainer to="/login">
+                                <Nav.Link className="nav-link">Login</Nav.Link>
                             </LinkContainer>
                         </li>
                         <li className="nav-item">
