@@ -5,11 +5,10 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from .views import ProductViewSet, CategoryViewSet, CartItemViewSet, OrderViewSet, PaymentViewSet, MessageViewSet, UserProfileViewSet
+from .views import ProductViewSet, CartItemViewSet, OrderViewSet, PaymentViewSet, MessageViewSet, UserProfileViewSet
 
 router = DefaultRouter()
 router.register(r'products', ProductViewSet)
-router.register(r'categories', CategoryViewSet)
 router.register(r'cart-items', CartItemViewSet)
 router.register(r'orders', OrderViewSet)
 router.register(r'payments', PaymentViewSet)

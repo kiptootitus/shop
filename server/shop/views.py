@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .models import Product, Category, Message, Payment, UserProfile, Order, CartItem
-from .serializers import ProductSerializer, CategorySerializer, UserProfileSerializer, MessageSerializer, \
+from .models import Product, Message, Payment, UserProfile, Order, CartItem
+from .serializers import ProductSerializer, UserProfileSerializer, MessageSerializer, \
     PaymentSerializer, OrderSerializer, CartItemSerializer
 
 
@@ -11,14 +11,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    """
-    A viewset for viewing and editing Category instances.
-    """
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
 
 
 class CartItemViewSet(viewsets.ModelViewSet):
@@ -35,7 +27,6 @@ class OrderViewSet(viewsets.ModelViewSet):
     """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-
 
 class PaymentViewSet(viewsets.ModelViewSet):
     """
