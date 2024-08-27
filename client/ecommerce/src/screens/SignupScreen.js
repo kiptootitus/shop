@@ -17,7 +17,7 @@ function SignupScreen() {
               <Card.Body>
                 <Form>
                   <Form.Group className="mb-3"  controlId="fname">
-                    <Form.Label>{" "}<span><i className="fa fa-user"></i></span>{" "}First Name</Form.Label>
+                    <Form.Label>{" "}<span><i class="fa-solid fa-user"></i></span>{" "}First Name</Form.Label>
                     <Form.Control type="text" placeholder="Enter your First Name" required/>
                   </Form.Group>
                   <Form.Group className="mb-3"  controlId="lname">
@@ -36,10 +36,17 @@ function SignupScreen() {
                     <Form.Label><span><i class=" "></i></span>Confirm Password</Form.Label>
                   </Form.Group>  
                   <Form.Control type="text" placeholder="Confirm your Password" required/>
+                  <div className='d-grid gap-2'>
+                    <Button className="btn btn-md btn-success" type="submit">Signup</Button>
+                  </div>
                 </Form>
-                <Button variant="green" type="submit" className="btn-block bg-green text-center ">
-                  Sign Up
-                </Button>
+                <Row className="py-3">
+                  <Col>Already a User ?
+                  <Link to="/login">Login</Link>                  
+                  </Col>
+                </Row>
+
+                
               </Card.Body>
             </Card>
           </Col>
