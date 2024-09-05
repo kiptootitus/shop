@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function SignupScreen() {
   return (
@@ -17,23 +16,23 @@ function SignupScreen() {
               <Card.Body>
                 <Form>
                   <Form.Group className="mb-3"  controlId="fname">
-                    <Form.Label>{" "}<span><i class="fa-solid fa-user"></i></span>{" "}First Name</Form.Label>
+                    <Form.Label><i className="fa fa-user" aria-hidden="true"></i>First Name</Form.Label>
                     <Form.Control type="text" placeholder="Enter your First Name" required/>
                   </Form.Group>
                   <Form.Group className="mb-3"  controlId="lname">
-                    <Form.Label>{" "}<span><i class="fa fa-user"></i></span>{" "}Last Name</Form.Label>
+                    <Form.Label>{" "}<span><i className="fa fa-user"></i></span>{" "}Last Name</Form.Label>
                     <Form.Control type="text" placeholder="Enter your Last Name" required/>
                   </Form.Group>
                   <Form.Group className="mb-3"  controlId="email">
-                    <Form.Label><span><i class="fa fa-email"></i></span>Email</Form.Label>
+                    <Form.Label><span><i className="fa fa-email"></i></span>Email</Form.Label>
                     <Form.Control type="text" placeholder="example@gmail.com"required/>
                   </Form.Group>
                   <Form.Group className="mb-3"  controlId="pass1">
-                    <Form.Label><span><i class=" "></i></span>Password</Form.Label>
+                    <Form.Label><span><i className=" "></i></span>Password</Form.Label>
                     <Form.Control type="text" placeholder="Enter your Password" required/>
                   </Form.Group>
                   <Form.Group className="mb-3"  controlId="pass2">
-                    <Form.Label><span><i class=" "></i></span>Confirm Password</Form.Label>
+                    <Form.Label><span><i className=" "></i></span>Confirm Password</Form.Label>
                   </Form.Group>  
                   <Form.Control type="text" placeholder="Confirm your Password" required/>
                   <div className='d-grid gap-2'>

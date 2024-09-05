@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { ListProducts } from '../../actions/ProductActions.js';
 
-function HomeScreen() {
-    const [products, setProducts] = useState([]);
+
+ export default function HomeScreen() {
+    const dispatch = useDispatch();
+    const productList = useSelector(state => state.productList);
+    const { loading, error, products } = productList;
 
     useEffect(() => {
-        async function fetchProducts() {
-            try {
-                const { data } = await axios.get('api/products/');
-                console.log('Fetched data:', data);
-                setProducts(data.results);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        }
-        fetchProducts();
-    }, []);
+        dispatch(ListProducts());
+    
+    }, [dispatch]);
 
     return (
         <Container>
@@ -40,5 +36,3 @@ function HomeScreen() {
         </Container>
     );
 }
-
-export default HomeScreen;
