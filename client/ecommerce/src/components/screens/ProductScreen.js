@@ -1,25 +1,16 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Button,
-  Card,
-  Container,
-} from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Button, Card, Container} from "react-bootstrap";
 import Rating from "../Rating";
 import Loader from "../Loader";
 import Message from "../Message";
-import { listDetailsProducts } from "../../actions/ProductActions";
 import { useDispatch, useSelector } from "react-redux";
-
+import { listDetailsProducts } from "../../actions/ProductActions";
 
 function ProductScreen(params) {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const productDetails = useSelector((state) => state.productsList);
+  const productDetails = useSelector((state) => state.productDetails);
   const { error, loading, product } = productDetails;
 
   useEffect(() => {
@@ -44,7 +35,7 @@ function ProductScreen(params) {
               <Image src={product.image} alt={product.name} fluid />
             </Col>
 
-            <Col md={3}>
+            <Col md={4}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>{product.name}</h3> 
@@ -63,14 +54,14 @@ function ProductScreen(params) {
               </ListGroup>
             </Col>
 
-            <Col md={3}>
+            <Col md={4}>
               <Card>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <Row>
                       <Col>Price:</Col>
                       <Col>
-                        <strong>{product.price} Rs</strong>
+                        <strong> Kshs. {product.price}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
