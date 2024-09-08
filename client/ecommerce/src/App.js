@@ -19,7 +19,7 @@ export default function App() {
         <Route exact path="/" element={<HomeScreen/>}></Route>
       </Routes>
       <Routes>
-        <Route exact path="/product/:_id" element={<ProductScreen/>}></Route>
+        <Route exact path="/product/:id" element={<ProductScreen/>}></Route>
       </Routes>
       <Routes>
         <Route exact path="/login" element={<LoginScreen/>}></Route>

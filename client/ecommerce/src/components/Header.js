@@ -9,7 +9,7 @@ function Header() {
         <Navbar className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div className="container-fluid">
                 <LinkContainer to="/">
-                    <Nav.Link className="navbar-brand"> One Step Away </Nav.Link>
+                    <Nav.Link className="navbar-brand"> OneStep Away </Nav.Link>
                 </LinkContainer>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
