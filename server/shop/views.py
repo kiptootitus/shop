@@ -1,21 +1,21 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework import status, viewsets
 from .models import Product, Message, Payment, UserProfile, Order, CartItem
-from .serializers import ProductSerializer, UserSerializer, UserSerializerWithToken, MessageSerializer, PaymentSerializer, OrderSerializer, CartItemSerializer, UserProfileSerializer
+from .serializers import ProductSerializer, UserRegistrationSerializer, UserSerializerWithToken, MessageSerializer, PaymentSerializer, OrderSerializer, CartItemSerializer, UserProfileSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
-from rest_framework import status, viewsets
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from .utils import generate_token
-from django.utils.encoding import force_bytes, force_text
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from .utils import generate_token
 from django.views.generic import View
+from rest_framework.views import APIView
 
 # Using ViewSets
 class ProductViewSet(viewsets.ModelViewSet):
@@ -77,18 +77,9 @@ def getProduct(request, pk):
 
 @api_view(['POST'])
 def registerUser(request):
-    data = request.data
-    try:
-        user = User.objects.create(
-            first_name=data['fname'],
-            last_name=data['lname'],
-            username=data['email'],
-            email=data['email'],
-            password=make_password(data['password']),
-            is_active=False
-        )
-
-        # Generate token for sending mail
+    serializer = UserRegistrationSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
         email_subject = "Activate Your Account"
         message = render_to_string(
             "activate.html",
@@ -99,21 +90,19 @@ def registerUser(request):
                 'token': generate_token.make_token(user)
             }
         )
-
-        email_message = EmailMessage(email_subject, message, settings.EMAIL_HOST_USER, [data['email']])
+        email_message = EmailMessage(email_subject, message, settings.EMAIL_HOST_USER, [user.email])
         email_message.send()
 
-        serializer = UserSerializerWithToken(user, many=False)
-        return Response(serializer.data)
-    except Exception as e:
-        return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        user_serializer = UserSerializerWithToken(user)
+        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ActivateAccountView(View):
     def get(self, request, uidb64, token):
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except Exception as e:
+        except Exception:
             user = None
 
         if user is not None and generate_token.check_token(user, token):
@@ -127,12 +116,23 @@ class ActivateAccountView(View):
 @permission_classes([IsAuthenticated])
 def getUserProfiles(request):
     user = request.user
-    serializer = UserSerializer(user, many=False)
+    serializer = UserSerializerWithToken(user, many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def getUsers(request):
     users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
+    serializer = UserSerializerWithToken(users, many=True)
     return Response(serializer.data)
+
+class RouteListView(APIView):
+    def get(self, request):
+        routes = [
+            '/api/products/',
+            '/api/products/<id>',
+            '/api/users/',
+            '/api/users/profile/',
+            # Add more routes as needed
+        ]
+        return Response(routes, status=status.HTTP_200_OK)
