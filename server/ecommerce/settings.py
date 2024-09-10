@@ -9,6 +9,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 import django 
 from django.utils.encoding import force_str
 django.utils.encoding.force_text = force_str
+import environ
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env()  # Reads the .env file
 
 
 
@@ -210,14 +215,13 @@ SIMPLE_JWT = {
 }
 
 # email credential for sending email
-EMAIL_HOST='smtpout.secureserver.net'
-# EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER=''
-EMAIL_HOST_PASSWORD=''
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-
+MAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 
 
