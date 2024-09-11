@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 
 # Product Model with variations, discount price, and stock tracking
@@ -34,12 +35,12 @@ class Product(models.Model):
 
 # CartItem Model with subtotal property
 class CartItem(models.Model):
-    user = models.ForeignKey(User, related_name='cart_items', on_delete=models.CASCADE)
+    username = models.ForeignKey(User, related_name='cart_items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='cart_items', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return f'{self.quantity} of {self.product.name} for {self.user.username}'
+        return f'{self.quantity} of {self.product.name} for {self.username}'
 
     @property
     def subtotal(self):
@@ -49,20 +50,35 @@ class CartItem(models.Model):
 # Order Model with shipping address and status updates
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
+    _id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=20,
-                              choices=[('Pending', 'Pending'), ('Shipped', 'Shipped'), ('Delivered', 'Delivered'), ('Cancelled', 'Cancelled')])
+    status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Shipped', 'Shipped'), ('Delivered', 'Delivered'), ('Cancelled', 'Cancelled')])
     created_at = models.DateTimeField(auto_now_add=True)
     shipping_address = models.TextField(blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     zip_code = models.CharField(max_length=10, blank=True, null=True)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+
     def __str__(self):
-        return f'Order #{self.id} by {self.user.username}'
+        return f'Order #{self._id} by {self.user.username}'
 
     @property
     def is_completed(self):
         return self.status == 'Delivered'
+
+    @property
+    def is_pending(self):
+        return self.status == 'Pending'
+
+    @property
+    def is_cancelled(self):
+        return self.status == 'Cancelled'
+
+    @property
+    def is_shipped(self):
+        return self.status == 'Shipped'
 
 
 # Payment Model with payment reference and gateway integration

@@ -19,7 +19,7 @@ function LoginScreen() {
                   
                   <Form.Group className="mb-3"  controlId="email">
                     <Form.Label><span><i className="fa fa-email"></i></span>Email</Form.Label>
-                    <Form.Control type="text" placeholder="example@gmail.com"required/>
+                    <Form.Control type="text" placeholder="example@gmail.com" required/>
                   </Form.Group>
                   <Form.Group className="mb-3"  controlId="password">
                     <Form.Label><span><i className=" "></i></span>Password</Form.Label>

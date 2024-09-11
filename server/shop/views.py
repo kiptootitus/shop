@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny
+
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -29,12 +31,17 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAdminUser]  # Allow only admins to add/edit products
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            # Allow any user (including unauthenticated) to view products
+            return [AllowAny()]
+        # Only admins can create, update, or delete products
+        return [IsAdminUser()]
 
     def get_queryset(self):
         # For filtering products based on available stock and discount
         return Product.objects.filter(stock_count__gt=0)
-
 
 class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
