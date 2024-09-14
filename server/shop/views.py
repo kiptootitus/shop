@@ -115,28 +115,27 @@ class MyTokenObtainPairView(TokenObtainPairView):
 # Registration View (Handles user registration with email confirmation)
 class UserRegistrationView(APIView):
     serializer_class = UserRegistrationSerializer
+
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             user.is_active = False  # User must activate account via email
             user.save()
+            
+            # Return user details in the response
+            user_data = {
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name
+            }
 
-            # Send activation email
-            email_subject = "Activate Your Account"
-            message = render_to_string(
-                "activate.html",
-                {
-                    'user': user,
-                    'domain': '127.0.0.1:8000',
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': generate_token.make_token(user)
-                }
-            )
-            email_message = EmailMessage(email_subject, message, settings.EMAIL_HOST_USER, [user.email])
-            email_message.send()
-
-            return Response({"detail": "Account created. Please check your email to activate."}, status=status.HTTP_201_CREATED)
+            return Response({
+                "detail": "Account created. Please check your email to activate.",
+                "user": user_data
+            }, status=status.HTTP_201_CREATED)
+            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

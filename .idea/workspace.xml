@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b5934d1-c298-4d7c-8323-8ab1d4b0d62a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+    <list default="true" id="8b5934d1-c298-4d7c-8323-8ab1d4b0d62a" name="Changes" comment="models and api perfecting">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,23 +22,30 @@
     &quot;assignee&quot;: &quot;kiptootitus&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:kiptootitus/shop.git",
-    "accountId": "ecd46043-86a9-4882-bda1-0bf292f41db9"
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="ecd46043-86a9-4882-bda1-0bf292f41db9" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:kiptootitus/shop.git&quot;,
+    &quot;accountId&quot;: &quot;ecd46043-86a9-4882-bda1-0bf292f41db9&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2lea6sRzX83CfhRfoS1MHJ1Z6n2" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
@@ -47,9 +55,15 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/ecommerce/src/Schema" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -68,10 +82,30 @@
       <updated>1725542842592</updated>
       <workItem from="1725542861850" duration="809000" />
       <workItem from="1725561217116" duration="148000" />
+      <workItem from="1726063737128" duration="3075000" />
+      <workItem from="1726068329804" duration="46000" />
+      <workItem from="1726069166852" duration="348000" />
+      <workItem from="1726069667508" duration="164000" />
+      <workItem from="1726071516027" duration="53000" />
+      <workItem from="1726073965877" duration="90000" />
+      <workItem from="1726143092474" duration="130000" />
     </task>
+    <task id="LOCAL-00001" summary="models and api perfecting">
+      <option name="closed" value="true" />
+      <created>1726067008484</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726067008485</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="models and api perfecting" />
+    <option name="LAST_COMMIT_MESSAGE" value="models and api perfecting" />
   </component>
 </project>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="ecd46043-86a9-4882-bda1-0bf292f41db9" />
+  <component name="Black">
+    <option name="sdkName" value="Python 3.10 (shop)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (shop)" project-jdk-type="Python SDK" />
 </project>

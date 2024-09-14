@@ -50,7 +50,7 @@ class CartItem(models.Model):
 # Order Model with shipping address and status updates
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
-    _id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True, editable=False)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Shipped', 'Shipped'), ('Delivered', 'Delivered'), ('Cancelled', 'Cancelled')])
     created_at = models.DateTimeField(auto_now_add=True)
