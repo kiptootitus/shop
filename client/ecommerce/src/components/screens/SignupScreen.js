@@ -1,8 +1,34 @@
-import React from "react";
-import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
+import React, { useState } from "react";
+import { Container, Form, Button, Row, Col, Card, Toast } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 function SignupScreen() {
+  const navigate = useNavigate()
+  const [first_name, setFname] = useState('')
+  const [last_name, setLname] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [show, changeShow] = useState("fa fa-eye-slash")
+
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    if(password.length < 6){
+      toast('Password should be atleast 6 characters')
+    }
+  } 
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
       <Container className="mt-3">
