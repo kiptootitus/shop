@@ -12,7 +12,7 @@ import {
 export const vendorLogin = () => async (dispatch) => {
   try {
     dispatch({ type: USER_REQUEST_LOGIN });
-    const { data } = await axios.post("/users/login");
+    const { data } = await axios.post("/users/login/");
     dispatch({ type: USER_REQUEST_LOGIN_SUCCESFUL });
   } catch (error) {
     dispatch({
@@ -25,18 +25,30 @@ export const vendorLogin = () => async (dispatch) => {
   }
 };
 
-export const vendorRegister = () => async (dispatch) => {
+export const vendorRegister = (first_name, last_name, email, password, password2) => async (dispatch) => {
   try {
-    dispatch({ type: USER_REQUEST_REGISTER });
-    const { data } = await axios.get("/users/register");
-    dispatch({ type: USER_REQUEST_REGISTER_SUCCESFUL });
+      dispatch({ type: USER_REQUEST_REGISTER });
+
+      const config = {
+          headers: {
+              "Content-Type": "application/json",
+          },
+      };
+
+      const { data } = await axios.post(
+          "/users/register/",
+          { first_name, last_name, email, password, password2 },
+          config
+      );
+
+      dispatch({ type: USER_REQUEST_REGISTER_SUCCESFUL, payload: data });
+
   } catch (error) {
-    dispatch({
-      type: USER_REQUEST_REGISTER_FAILED,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
+      dispatch({
+          type: USER_REQUEST_REGISTER_FAILED,
+          payload: error.response && error.response.data.detail
+              ? error.response.data.detail
+              : error.message,
+      });
   }
 };

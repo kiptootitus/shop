@@ -4,7 +4,7 @@ from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.permissions import AllowAny
-
+from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -113,32 +113,41 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 # Registration View (Handles user registration with email confirmation)
-class UserRegistrationView(APIView):
-    serializer_class = UserRegistrationSerializer
 
+
+class UserRegistrationView(APIView):
+    
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
+        
         if serializer.is_valid():
-            user = serializer.save()
-            user.is_active = False  # User must activate account via email
-            user.save()
-            
-            # Return user details in the response
-            user_data = {
-                'username': user.username,
-                'email': user.email,
-                'first_name': user.first_name,
-                'last_name': user.last_name
-            }
+            try:
+                user = serializer.save()
 
-            return Response({
-                "detail": "Account created. Please check your email to activate.",
-                "user": user_data
-            }, status=status.HTTP_201_CREATED)
-            
+                # Prepare response data
+                user_data = {
+                    'username': user.username,
+                    'email': user.email,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name
+                }
+
+                return Response({
+                    "detail": "Account created. Please check your email to activate.",
+                    "user": user_data
+                }, status=status.HTTP_201_CREATED)
+
+            except IntegrityError as e:
+                # Catch IntegrityError for duplicate username or email
+                if 'duplicate key value violates unique constraint' in str(e):
+                    return Response({
+                        "error": "A user with that email already exists."
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Return validation errors
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+   
 # Account Activation View (Handles email confirmation)
 class ActivateAccountView(APIView):
     def get(self, request, uidb64, token):

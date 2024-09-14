@@ -5,44 +5,41 @@ from .models import Product, Order, UserProfile, CartItem, Message, Payment
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
-    address = serializers.CharField(write_only=True)
-    city = serializers.CharField(write_only=True)
-    zip_code = serializers.CharField(write_only=True)
-    
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['first_name', 'last_name', 'email', 'password', 'password2']
         extra_kwargs = {
             'password': {'write_only': True},
         }
 
-    def save(self):
+    def validate_email(self, value):
+        # Check if the email is already in use
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with that email already exists.")
+        return value
+
+    def validate(self, data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError({'password': 'Passwords must match'})
+        return data
+
+    def save(self, **kwargs):
         user = User(
             first_name=self.validated_data['first_name'],
             last_name=self.validated_data['last_name'],
             email=self.validated_data['email'],
-            username=self.validated_data['email'],
+            username=self.validated_data['email'],  # Use email as username
         )
         password = self.validated_data['password']
-        
-        if password != password:
-            raise serializers.ValidationError({'password': 'Passwords must match'})
-        
         user.set_password(password)
         user.is_active = False  # Deactivate account until email confirmation
         user.save()
 
-        # Create UserProfile with additional information
-        UserProfile.objects.create(
-            user=user,
-            address=self.validated_data['address'],
-            city=self.validated_data['city'],
-            zip_code=self.validated_data['zip_code']
-        )
+        # Create UserProfile
+        UserProfile.objects.create(user=user)
 
         return user
-
-
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
     _id = serializers.SerializerMethodField(read_only=True)
