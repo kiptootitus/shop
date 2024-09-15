@@ -7,18 +7,13 @@ import {
   USER_REQUEST_REGISTER_FAILED,
 } from "../contants/UserConstants";
 
-const initialState = {
-  loading: false,
-  error: null,
 
-};
-
-export const userLoginReducer = (state = initialState, action) => {
+export const userLoginReducer = (state = {}, action) => {
   switch (action.type){
     case USER_REQUEST_LOGIN:
       return { ...state, loading: true };
     case USER_REQUEST_LOGIN_SUCCESFUL:
-      return {...state, loading: false, user: action.payload.results };
+      return {...state, loading: false, userInfo: action.payload.results };
     case USER_REQUEST_LOGIN_FAILED:
       return {...state, loading: false, error: action.payload };
     default:

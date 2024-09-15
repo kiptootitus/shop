@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { vendorRegister } from "../../actions/UserAction";
 import Loader from "../Loader";
 import Message from "../Message";
 
-
 function SignupScreen() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [first_name, setFname] = useState("");
-    const [last_name, setLname] = useState("");
+    const [first_name, setFirst_name] = useState("");
+    const [last_name, setLast_name] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [show, changeShow] = useState(false); // Toggle password visibility
+    const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
+    const [message, setMessage] = useState(""); // To display validation errors
 
     const userRegister = useSelector((state) => state.userRegister);
     const { loading, error, userInfo } = userRegister;
@@ -27,12 +26,12 @@ function SignupScreen() {
 
         // Basic validation
         if (password.length < 6) {
-            toast.error("Password should be at least 6 characters");
+            setMessage("Password should be at least 6 characters");
             return;
         }
 
         if (password !== confirmPassword) {
-            toast.error("Passwords do not match");
+            setMessage("Passwords do not match");
             return;
         }
 
@@ -40,17 +39,16 @@ function SignupScreen() {
         dispatch(vendorRegister(first_name, last_name, email, password, confirmPassword));
     };
 
-    // If the user has successfully registered, redirect to login page
+    // Redirect if registration is successful
     if (userInfo) {
-        toast.success("Registration Successful");
+        setMessage("Registration Successful");
         navigate("/login");
     } else if (error) {
-        toast.error(error);
+        setMessage(error);
     }
 
-
-    const togglePasswordVisibility = () => {
-        changeShow(!show);
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword); // Toggle between text and password
     };
 
     return (
@@ -63,19 +61,18 @@ function SignupScreen() {
                             Sign Up
                         </Card.Header>
                         <Card.Body>
-                            {error && <p className="text-danger">{error}</p>}
-                            {loading && <p>Loading...</p>}
+                            {error && <Message variant="danger">{error}</Message>}
+                            {loading && <Loader />}
                             <Form onSubmit={submitHandler}>
                                 <Form.Group className="mb-3" controlId="fname">
                                     <Form.Label>
-                                        <i className="fa fa-user" aria-hidden="true"></i> First
-                                        Name
+                                        <i className="fa fa-user"></i> First Name
                                     </Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="Enter your First Name"
                                         value={first_name}
-                                        onChange={(e) => setFname(e.target.value)}
+                                        onChange={(e) => setFirst_name(e.target.value)}
                                         required
                                     />
                                 </Form.Group>
@@ -88,7 +85,7 @@ function SignupScreen() {
                                         type="text"
                                         placeholder="Enter your Last Name"
                                         value={last_name}
-                                        onChange={(e) => setLname(e.target.value)}
+                                        onChange={(e) => setLast_name(e.target.value)}
                                         required
                                     />
                                 </Form.Group>
@@ -97,57 +94,68 @@ function SignupScreen() {
                                     <Form.Label>
                                         <i className="fa fa-envelope"></i> Email
                                     </Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="example@gmail.com"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
+                                    <div className="input-group">
+                                        <Form.Control
+                                            type="email"
+                                            placeholder="example@gmail.com"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                        <span className="input-group-text">
+                                            <i className="fa fa-envelope"></i>
+                                        </span>
+                                    </div>
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="password">
                                     <Form.Label>
                                         <i className="fa fa-lock"></i> Password
                                     </Form.Label>
-                                    <Form.Control
-                                        type={show ? "text" : "password"}
-                                        placeholder="Enter your Password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                    <i
-                                        className={show ? "fa fa-eye" : "fa fa-eye-slash"}
-                                        onClick={togglePasswordVisibility}
-                                        style={{
-                                            cursor: "pointer",
-                                            position: "absolute",
-                                            right: "10px",
-                                            top: "38px",
-                                        }}
-                                    ></i>
+                                    <div className="input-group">
+                                        <Form.Control
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="Enter your Password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
+                                        <span className="input-group-text">
+                                            <i
+                                                className={showPassword ? "fa fa-eye" : "fa fa-eye-slash"}
+                                                onClick={toggleShowPassword}
+                                                style={{ cursor: "pointer" }}
+                                            ></i>
+                                        </span>
+                                    </div>
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="confirmPassword">
                                     <Form.Label>
                                         <i className="fa fa-lock"></i> Confirm Password
                                     </Form.Label>
-                                    <Form.Control
-                                        type={show ? "text" : "password"}
-                                        placeholder="Confirm your Password"
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        required
-                                    />
+                                    <div className="input-group">
+                                        <Form.Control
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="Confirm your Password"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            required
+                                        />
+                                        <span className="input-group-text">
+                                            <i
+                                                className={showPassword ? "fa fa-eye" : "fa fa-eye-slash"}
+                                                onClick={toggleShowPassword}
+                                                style={{ cursor: "pointer" }}
+                                            ></i>
+                                        </span>
+                                    </div>
                                 </Form.Group>
 
+                                {message && <Message variant="danger">{message}</Message>}
+
                                 <div className="d-grid gap-2">
-                                    <Button
-                                        className="btn btn-md btn-success"
-                                        type="submit"
-                                        disabled={loading}
-                                    >
+                                    <Button className="btn btn-md btn-success" type="submit">
                                         {loading ? "Signing Up..." : "Signup"}
                                     </Button>
                                 </div>
